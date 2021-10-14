@@ -1,0 +1,92 @@
+13. ¿Cómo	interpreta	los	siguientes	umbrales?
+check_stuff	-w10	-c20 devuelve:
+ - un estado de OK si 'stuff' está entre 0 y 10
+ - WARNING si 'stuff' está entre 10 y 20
+ - CRITICAL si 'stuff' es negativo o mayor a 20
+
+check_stuff	-w~:10	-c~:20 devuelve:
+ - un estado de OK si 'stuff' es menor a 10 
+ - WARNING si 'stuff' está entre 10 y 20
+ - CRITICAL si 'stuff' es mayor a 20
+
+check_stuff	-w10:	-c20 devuelve:
+ - un estado de OK si 'stuff' está entre 10 y 20
+ - WARNING si 'stuff' está entre 0 y 10
+ - CRITICAL si 'stuff' es negativo o mayor a 20
+
+check_stuff	-c1: devuelve:
+ - un estado de OK si 'stuff' es mayor a 1
+ - CRITICAL si 'stuff' es menor a 1
+
+check_stuff	-w~:0 -c10 devuelve:
+ - un estado de OK si 'stuff' es igual a 0 o igual a 10???
+ - WARNING si 'stuff' está entre 0 y 10
+ - CRITICAL si es negativo o mayor a 10
+
+check_stuff	-c5:6 devuelve:
+ - OK si 'stuff' está entre 5 y 6
+ - CRITICAL si 'stuff' es menor a 5 o mayor a 6
+
+check_stuff -c@10:20 devuelve: (@ es negación, < pasa a ser >=)
+ - OK si 'stuff' es menor a 10 o mayor a 20
+ - CRITICAL si 'stuff' está entre 10 y 20, incluyendolos
+ 
+ 14. ¿Cuáles	son	los	posibles	valores	de	retorno	de	un	plugin	y	qué significa	cada	
+valor?
+
+Plugin Return Code   |  Service State | Host State
+---------------------------------------------------------------
+0		                 |  OK	          | UP
+1		                 |  WARNING	      | UP or DOWN/UNREACHABLE
+2		                 |  CRITICAL      | DOWN/UNREACHABLE
+3		                 |  UNKNOWN	      | DOWN/UNREACHABLE
+
+15. ¿Qué	es	la	perfdata?
+Plugin performance data: Es información externa a Nagios que brinda el plugin cuando se hace el chequeo de un host o servicio en particular. Por ej: pérdida de paquetes, espacio en disco, uso de CPU, o cualquier métrica que use el plugin en la medición. La perfdata se manda después de un pipe en el output del plugin.
+
+Por ej: para el plugin 'check_ping', el output puede ser:
+
+PING ok - Packet loss = 0%, RTA = 0.80 ms | percent_packet_loss=0, rta=0.80
+
+Entonces, todo lo que va antes del pipe, Nagios lo toma como output normal, y lo que viene después lo toma como perfdata.
+
+16. ¿Qué	es	el	mod gearman?
+mod-gearman es un módulo que se puede integrar a un servidor de cualquier tipo; en el caso de un servidor Nagios, mod-gearman puede hacer el procesamiento de los checks activos de forma externa, y cuando termina le devuelve el resultado a Nagios. Los checks que hace mod-gearman son más eficientes que los que hacen los plugins, ya que mod-gearman distribuye los checks en distintos servidores, reduciendo la carga sobre el servidor de Nagios. Esto hace que el servidor de Nagios sea más escalable, ya que puede monitorear más hosts y servicios, manteniendo su velocidad y eficiencia.
+
+17. ¿Qué	es	el	pnp4nagios?
+PNP es un complemento para Nagios que analiza los datos de rendimiento (performance data) obtenidos por los plugins y los almacena automáticamente en bases de datos.
+ej: la salida del plugin check_icmp puede ser:
+ OK - 127.0.0.1: rta 2.687ms, lost 0% |rta=2.687ms;3000.000;5000.000;0; pl=0%;80;100;;
+ 
+Todo lo que está a la derecha del pipe (perfdata) puede ser procesado automáticamente dado que tiene el formato definido en las guías del desarrollador (guidelines).
+
+18. ¿Qué	pasa	si	el	service	check_latency	da	100	segundos?
+Si el service check_latency es 100 segundos, quiere decir que el check estaba programado a una hora, y en realidad se ejecutó 100 segundos después. Dependiendo de la importancia de este servicio, este valor de latencia puede ser preocupante o no.
+
+19. ¿Qué	es	el	Nagvis?
+Nagvis es un complemento de visualización para Nagios que muestra el estado actual de los hosts y servicios monitoreados, junto con sus dependencias. Es muy útil para representar gráficamente la topología de la red.  
+
+20. ¿Cómo	saca	información	el	Nagvis?
+Nagvis usa backends, que toman información del proceso de Nagios (como mklivestatus, que lee directamente de la RAM) o de una base de datos (como NDOUtils o merlin, que necesitan acceso a una base da datos de MySQL)
+
+21. ¿Cómo	haría	para	procesar	SNMP	traps	en	Nagios?
+Los SNMP traps se pueden procesar desde la interfaz web Nagios XI. Los traps tienen su archivo de configuración (.cfg), donde se define qué hacer cuando llega ese trap (generar una alerta, ejecutar un comando, etc). Cuando le llega un trap, la interfaz lo pone en una lista de 'Received Traps', y hace lo que tiene que hacer según el archivo .cfg
+
+22. ¿Qué	son	los	passive	checks?
+A diferencia de los active checks, los passive checks son iniciados y ejecutados por aplicaciones externas a Nagios, y no están programados para ejecutarse cada cierto tiempo. 
+Por ejemplo, los SNMP traps son asincrónicos por naturaleza, por lo que es conveniente monitorearlos con passive checks 
+
+23. ¿Qué	es	NSCA	y	para	qué	se	puede	usar?
+NSCA es un complemento que ayuda a Nagios en el procesamiento de los passive checks. Consta de dos partes: un servidor NSCA que corre en sistemas remotos y es usado por aplicaciones externas para mandar los resultados de los checks, y un cliente NSCA que corre en el servidor de Nagios y espera recibir los resultados de estos checks para que Nagios lo pueda procesar.
+
+24. ¿Qué	es	NRPE	y	para	qué	se	puede	usar?
+NRPE es la aplicación de Linux que manda los resultados de los passive checks a un Service Check Acceptor configurado anteriormente (como NSCA)
+
+25. ¿Qué	es	NSClient++	y	para	qué	se	puede	usar?
+NSClient++ es equivalente a NRPE pero para Windows.
+
+26. ¿Qué	mecanismos	de	distributed	monitoring conoce?
+El mecanismo de monitoreo distribuido recomendado es NRDP (junto con NSCA). NRDP es otro complemento de Nagios que provee un mecanismo de transporte para el envío de resultados de passive checks, así como también un conjunto de plugins para el procesamiento de datos. Se prefiere por sobre NSCA por estar desarrollada sobre protocolos web, lo que facilita la configuración de firewalls y permite agregar mecanismos de autenticación y encriptado.
+
+27. ¿Qué	son	las	obsessive	notifications?
+Obsessive notifications: Es un mecanismo que obliga a ejecutar un comando o una serie de comandos cada vez que se reciba el resultado de un check (puede ser active o passive check). Se usa como mecanismo de monitoreo distribuido
