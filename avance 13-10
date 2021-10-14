@@ -10,4 +10,4 @@ checks permanentemente para que, si el servidor se cae, otra instancia del servi
 12. ¿Cómo	hago	para	medir	24	hs	pero	alertar	sólo	de	7	a	21?
 Por default, Nagios hace checks (mediciones) 24x7 -o también se puede configurar un 'time period' de 24x7 y usarlo en la directiva 
 'check_period'-. Entonces, solo hace falta configurar un 'time period' donde se permitan mandar notificaciones; 
-esto se hace con la directiva 'notification_period' en la definición del host o service
+esto se hace con la directiva 'notification_period' en la definición del host o service.
