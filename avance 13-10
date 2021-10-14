@@ -1,8 +1,13 @@
 10. ¿Cuál	es	el	efecto	de	notification_interval?
-notification_interval especifica cada cuánto tiempo (en minutos por defecto) se debe reenviar una notificación por un host o servicio que sigue en estado down o unreachable. Si este valor es 0, solo se envía una notificación por la caída de ese host o service.
+notification_interval especifica cada cuánto tiempo (en minutos por defecto) se debe reenviar una notificación por un host 
+o servicio que sigue en estado down o unreachable. Si este valor es 0, solo se envía una notificación por la caída de ese host o service.
 
 11. ¿Cuando	consideraría	usar	check_freshness?
-check_freshness se usa cuando uno quiere estar seguro que los checks sobre los host o servicios que uno configuró se están haciendo con la frecuencia que corresponde. Por ej: el servidor de Nagios necesita estar disponible todo el tiempo, por eso se necesitan hacer checks permanentemente para que, si el servidor se cae, otra instancia del servidor tome su lugar
+check_freshness se usa cuando uno quiere estar seguro que los checks sobre los host o servicios que uno configuró se están haciendo 
+con la frecuencia que corresponde. Por ej: el servidor de Nagios necesita estar disponible todo el tiempo, por eso se necesitan hacer
+checks permanentemente para que, si el servidor se cae, otra instancia del servidor tome su lugar
 
 12. ¿Cómo	hago	para	medir	24	hs	pero	alertar	sólo	de	7	a	21?
-Por default, Nagios hace checks (mediciones) 24x7 -o también se puede configurar un 'time period' de 24x7 y usarlo en la directiva 'check_period'-. Entonces, solo hace falta configurar un 'time period' donde se permitan mandar notificaciones; esto se hace con la directiva 'notification_period' en la definición del host o service
+Por default, Nagios hace checks (mediciones) 24x7 -o también se puede configurar un 'time period' de 24x7 y usarlo en la directiva 
+'check_period'-. Entonces, solo hace falta configurar un 'time period' donde se permitan mandar notificaciones; 
+esto se hace con la directiva 'notification_period' en la definición del host o service
