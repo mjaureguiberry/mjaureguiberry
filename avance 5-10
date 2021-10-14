@@ -1,0 +1,12 @@
+1. ¿Qué	son	los	SOFT	y	HARD	states?
+Un soft state es cuando un servicio o host tiene una falla que no es permanente.
+Si esa falla dura un tiempo considerable (que depende de cada host o servicio y es configurable) se considera como hard state.
+
+2. ¿Qué	es	un	service	en	Nagios?
+Un service es una funcionalidad que utiliza un host y que puede ser monitoreada (por ej: servicio de mail, uso de CPU, memoria disponible,etc)
+
+3. ¿Cuáles	son	los	posibles	estados	para	hosts?
+up, down, unreachable
+
+4. ¿Cuáles	son	los	posibles	estados	para	service?
+Ok, warning, critical, unknown
