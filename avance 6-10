@@ -11,7 +11,8 @@ Misma idea que los hostgroups pero para servicios.
 Se pueden agrupar segun el tipo de servicio (servidores mysql y pgsql, por ej, o servidores de ssh).
 
 8. ¿Cuál	es	el	orden	de	prelación	usando	templates?
-Si un objeto hereda parametros de varios templates, y algunos parametros están definidos en más de un template, usa los parametros del primer template definido con la directiva 'use'
+Si un objeto hereda parametros de varios templates, y algunos parametros están definidos en más de un template, usa los parametros 
+del primer template definido con la directiva 'use'
 
 9. ¿Cuál	es	el	orden	de	prelación	usando	herencia?
 Los parámetros locales definidos en el objeto siempre tienen precedencia por sobre los parametros heredados de un template.
