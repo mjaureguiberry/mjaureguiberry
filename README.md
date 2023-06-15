@@ -1,4 +1,4 @@
-- Repositorio creado para guardar progreso de capacitación en Nagios
+- Repositorio creado para proyectos personales
 
 <!---
 mjaureguiberry/mjaureguiberry is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
